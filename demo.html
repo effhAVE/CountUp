@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CountUp.js Demo</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-size: 32px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #363636;
+            color: #e2e2e2;
+        }
+
+        a {
+            text-decoration: underline #e2e2e2;
+        }
+
+        .is-secondary {
+            color: #ff7b00;
+        }
+
+        .is-fullheight {
+            height: 100vh;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            align-content: center;
+            justify-content: space-evenly;
+        }
+
+        .is-fullheight>* {
+            flex-grow: 1;
+            flex-basis: 0;
+            text-align: center;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .is-fullheight>.title,
+        .is-fullheight>.subtitle {
+            flex-basis: 100%;
+        }
+
+        .example::before {
+            position: absolute;
+            top: -2em;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8em;
+            color: #e2e2e2;
+        }
+
+        #example::before {
+            content: "Default easing";
+        }
+
+        #example1::before {
+            content: "easeInOutQuad";
+        }
+
+        #example2::before {
+            content: "easeOutBounce";
+        }
+    </style>
+</head>
+
+<body>
+    <div class="is-fullheight">
+        <h1 class="title">CountUp.js by <a class="is-secondary" href="https://have.com.pl">Grzegorz Kowalczyk</a></h1>
+        <p>Different values:</p>
+        <div class="is-secondary" data-counter="180"></div>
+        <div class="is-secondary" data-counter="6"></div>
+        <div class="is-secondary" data-counter="3180"></div>
+    </div>
+    <div class="is-fullheight">
+        <p>Counting up on scroll:</p>
+        <div class="is-secondary" data-counter="27"></div>
+    </div>
+    <div class="is-fullheight">
+        <p>Custom starting points:</p>
+        <div class="is-secondary" data-counter="580" data-start="500"></div>
+    </div>
+    <div class="is-fullheight">
+        <p>Set duration:</p>
+        <div class="is-secondary" data-counter="1000" data-duration="3"></div>
+        <div class="is-secondary" data-counter="1000" data-duration="6"></div>
+    </div>
+    <div class="is-fullheight">
+        <p>Provide your own easing:</p>
+        <div data-counter="1580" class="example is-secondary" id="example" data-duration="10"></div>
+        <div class="example is-secondary" id="example1"></div>
+        <div class="example is-secondary" id="example2"></div>
+    </div>
+    <div class="is-fullheight">
+        <p>Count down:</p>
+        <div class="is-secondary" data-counter="540" data-start="590"></div>
+    </div>
+    <div class="is-fullheight">
+        <p>Floating point numbers:</p>
+        <div class="is-secondary" data-counter="7" data-decimals="1"></div>
+        <div class="is-secondary" data-counter="14" data-decimals="3"></div>
+    </div>
+    <script src="src/countUp.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            function easeInOutQuad(t, b, c, d) {
+                if ((t /= d / 2) < 1) return c / 2 * t * t + b;
+                return -c / 2 * ((--t) * (t - 2) - 1) + b;
+            }
+            function easeOutBounce(t, b, c, d) {
+                if ((t /= d) < (1 / 2.75)) {
+                    return c * (7.5625 * t * t) + b;
+                } else if (t < (2 / 2.75)) {
+                    return c * (7.5625 * (t -= (1.5 / 2.75)) * t + .75) + b;
+                } else if (t < (2.5 / 2.75)) {
+                    return c * (7.5625 * (t -= (2.25 / 2.75)) * t + .9375) + b;
+                } else {
+                    return c * (7.5625 * (t -= (2.625 / 2.75)) * t + .984375) + b;
+                }
+            }
+
+            const countUp = new CountUp();
+            countUp.initCounter({ selector: document.querySelector("#example1"), easingFunc: "easeInOutQuad", duration: 10, counter: 1580 });
+            countUp.initCounter({ selector: document.querySelector("#example2"), easingFunc: easeOutBounce, duration: 10, counter: 1580 });
+        });
+    </script>
+</body>
+
+</html>
